@@ -1,47 +1,92 @@
-var Jueguin = Jueguin || {};
-
 $(document).ready(function() {
+    console.log("inicio");
+    // *.. Autenticacion del formulario ..*
+    $('#botonLogin').click(function() {
+        console.log("form");
+        params = {};
+        params.user = $("#nombredeusuario").val();    // tomo lo que esta en el input de usuario
+        params.pass = $("#clave").val();              // tomo lo que esta en el input de password
 
-	// *.. Autenticacion del formulario ..*
-	$('#formulario').submit(function() {
-		var datosUsuario = $("#nombredeusuario").val()    // tomo lo que esta en el input de usuario
-		var datosPassword = $("#clave").val()             // tomo lo que esta en el input de password
-		
-	  	archivoValidacion = "http://maschertef.esy.es/host/validacion_de_datos.php?jsoncallback=?" // url del archivo php que busca en la db
-
-		$.getJSON(archivoValidacion,{usuario:datosUsuario ,password:datosPassword})
-        .done(function(respuestaServer) {
-            $mensa = respuestaServer.mensaje;             // tomo los mensajes que devuelve el php
-
-            if(respuestaServer.validacion == "ok") {
-                
-                for (i= 0; i < $mensa.length; i++) {
-                    $.each($mensa[i], function(a,b) {
-                        if (a == "id") {
-                            localStorage.setItem("id", b);
-                        } else if (a == "usuario") {
-                            $saludo = "Hola " + b + "!";
-                            $('#datos_inc').append($saludo);
-                            ingreso();
-                        }
-                    });
-                }
-            } else {
-                $('#datos_inc').append(respuestaServer.mensaje);
+        $.ajax({
+            // *url, archivo php que busca en la db, *type, tipo de dato ue paso, *data, array del info que mando
+            // url: "http://localhost/develop/Actuales/maschertef/host/validacion_de_datos.php",
+            url: "http://maschertef.esy.es/host/validacion_de_datos.php",
+            type: "POST",
+            data: params,
+            cache: false,
+            dataType: "json"
+        }).done(function(data) {
+            console.log("success");
+            switch (data) {
+                case 1:
+                    $('#datos_inc').append("Usuario y/o contraseña invalidos");
+                break;
+                case 2:
+                    $('#datos_inc').append("fallo la conexion");
+                break;
+                default:
+                    console.log("id: " + data.id + " nombre: " + data.usuario);
+                    localStorage.setItem("id", data.id);
+                    $(location).attr('href', 'http://maschertef.esy.es/app/game.html');
+                break;
             }
-        })
-		return false;
-	});
-
-    $aide = localStorage.getItem("id");
-
-    function ingreso() {
-        Jueguin.game = new Phaser.Game(1024, 768, Phaser.AUTO); // Instancio Phaser y especifico las dimensiones
-        // // Cargo los estados
-        Jueguin.game.state.add('Menu', Jueguin.MenuState);
-        Jueguin.game.state.add('Boot', Jueguin.BootState);
-        Jueguin.game.state.add('Preload', Jueguin.PreloadState);
-        Jueguin.game.state.add('Game', Jueguin.GameState);
-        Jueguin.game.state.start('Menu');
-    }
+        }).error(function(error, textStatus){
+            console.log(error);
+        });
+    });
 });
+
+function crearCompetencia(jugador, oponente) {
+    console.log("Crear Competencia");
+    params = {};
+    params.jugador = jugador;
+    params.oponente = oponente;
+
+    $.ajax({
+        // url: "http://localhost/develop/Actuales/maschertef/host/crearCompetencia.php",
+        url: "http://maschertef.esy.es/host/crearCompetencia.php",
+        type: 'GET',
+        data: params,
+        dataType: 'json',
+    }).done(function(data) {
+        console.log("success competencia");
+        if (data == 1) {
+            console.log("fallo la conexion");
+        } else {
+            localStorage.setItem("competencia", data.id_competencia);
+            console.log(data);
+        }
+    }).error(function(error, textStatus){
+        console.log(error);
+    });
+}
+
+
+function fin(competencia, ptos) {
+    console.log("alta puntos");
+    $id = localStorage.getItem("id");
+    params = {};
+    params.id = $id;
+    params.ptos_usuario = ptos;
+    params.id_competencia = competencia;
+    console.log("id " + params.id + "\nPtos: " + params.ptos_usuario);
+
+    $.ajax({
+        // url: "http://localhost/develop/Actuales/maschertef/host/ptos.php",
+        url: "http://maschertef.esy.es/host/ptos.php",
+        type: "GET",
+        data: params,
+        cache: false,
+        dataType: "json"
+    }).done(function(data) {
+        console.log("success");
+        if (data == 1) {
+            console.log("fallo la conexion");
+        } else {
+            console.log(data);
+        }
+        // $(location).attr('href', 'http://localhost/develop/Actuales/maschertef/app/game.html');
+    }).error(function(error, textStatus){
+        console.log(error);
+    });
+}

@@ -1,6 +1,6 @@
 var Jueguin = Jueguin || {};
 var button;         // Creo la variable para el boton
-var txtName;     // Texto de instrucciones
+var txtInstruc;     // Texto de instrucciones
 
 // Creo el estado del Menu
 Jueguin.MenuState = {
@@ -12,13 +12,8 @@ Jueguin.MenuState = {
         this.scale.pageAlignVertically = true;
     },
 
-    preload: function () {
-        // Cargo el boton
-        this.game.load.spritesheet('button', 'assets/img/button_sprite_sheet.png', 192, 71);
-    },
-
     create: function () {
-        txtName = this.game.add.text(this.game.world.centerX - 200, this.game.world.centerY - 300, 'Maschertef', {fontSize: '32px',fill: '#de98ff'});
+        txtInstruc = this.game.add.text(this.game.world.centerX - 440, this.game.world.centerY - 100, '             arrastra los ingrdientes hasta los utensillos \n y prepara la mejor receta para ganarle a tus chefamigos', {fontSize: '32px',fill: '#de98ff'});
 
         // Situo el boton y le setteo el ancla en el medio
         button = this.game.add.button(this.game.world.centerX, this.game.world.centerY + 180, 'button', actionOn, this, 1, 0);
@@ -31,7 +26,7 @@ Jueguin.MenuState = {
     },
 
     actionOnClick: function () {
-        // Voy al Boot
-        Jueguin.game.state.start('Boot');
+        // Voy a "Invite"
+        Jueguin.game.state.start('Invite');
     }
 };

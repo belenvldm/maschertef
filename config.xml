@@ -1,18 +1,18 @@
 <?xml version='1.0' encoding='utf-8'?> <!-- denomina que es XML -->
 <!-- el id es el dominio pero invertido con el nombre al final
      la version es de la app -->
-<widget id="es.esy.appmiramevidrieras" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>mirame vidrieras</name> <!-- Nombre de la APP -->
+<widget id="es.esy.maschertef" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>maschertef</name> <!-- Nombre de la APP -->
     <description>
         Soporte tecnico <!-- Descripcion en phonegap, si no se especifica otra en el appleStore o googleStore, va a aparecer esta descripcion -->
     </description>
     <author email="info@appmiramevidrieras.esy.es" href="http://www.appmiramevidrieras.esy.es"> <!-- datos de contacto del autor -->
-        Belen Lopez del Monte
+        Daniola y Belen
     </author>
     
     <preference name="permissions" value="none" />
     <preference name="phonegap-version" value="3.7.0" /> <!-- Version en la que se va a compilar, se puede elegir en base a lo que uno usa -->
-    <preference name="orientation" value="default" />  <!-- default es portait -->
+    <preference name="orientation" value="landscape" />  <!-- default es portait -->
     <preference name="target-device" value="universal" /> <!-- si es para ciertos dispositivos -->
     <preference name="fullscreen" value="true" /> <!-- si es full o no, si se ve el reloj y demas -->
     <preference name="webviewbounce" value="true" /> 
