@@ -27,9 +27,6 @@
     <preference name="android-minSdkVersion" value="7" />
     <preference name="android-installLocation" value="auto" />
     
-    <!-- Plugin: Funcionalidad no realizable en HTML, es algo aparte -->
-    <gap:plugin name="org.apache.cordova.device-orientation" /> <!-- Hay que especificar los plugins que se vayan a utilizar -->
-    
     <!-- <icon src="icon.png" /> --> <!-- Icono por default de la app -->
     <!-- Variacion del icono por plataformas y medidas -->
     <!-- <icon gap:platform="android" gap:qualifier="ldpi" src="res/icon/android/icon-36-ldpi.png" />
