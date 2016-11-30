@@ -2,20 +2,17 @@
 	require_once ("conectar_base.php");		// traigo el codigo de conexion
 	$conexion = new conexion;				// instancio conexion
 
-	$usuarioEnviado = $_POST['user'];		// Variable de usuario desde el form
-	$passwordEnviado = $_POST['pass'];		// Variable de password desde el form
+	$idActual = $_POST['id'];				// Variable de usuario desde el form
 
 	// Conexion a db
 	if(!mysqli_connect_error()) {
 		// Consulta a la db
-		$consulta  = "SELECT * FROM usuario WHERE nombre_usuario = '$usuarioEnviado' and pass_usuario = '$passwordEnviado'";
+		$consulta  = "SELECT * FROM usuario WHERE id_usuario != '$idActual'";
 		$respuesta = mysqli_query($conexion->conectado,$consulta);	// Respues de la db con la conexion y la consulta
 
 		if(mysqli_num_rows($respuesta) > 0) {
 			while ($obj = mysqli_fetch_object($respuesta)) {
 				$matriz = array("id" => $obj->id_usuario, "usuario" => utf8_encode($obj->nombre_usuario));
-				session_start();
-				$_SESSION["id"] = $obj->id_usuario;
 			}
 			$data = json_encode($matriz); 	// Pasa a JSON los datos
 		} else {
